@@ -675,5 +675,5 @@ with st.sidebar:
             st.rerun() # Agora ele reinicia só 1 vez, vê a etiqueta e para o ciclo!
         else:
             st.success("✅ Base de dados atualizada e pronta!")
-            
-    st.markdown("<br><div style='text-align:center; font-size:0.7rem; color:#475569; font-weight:600;'>Portal PCM • Visualizador Executivo</div>", unsafe_allow_html=True).7rem; color:#475569; font-weight:600;'>Portal PCM • Visualizador Executivo</div>", unsafe_allow_html=True)
+            st.markdown("<br><div style='text-align:center; font-size:0.7rem; color:#475569; font-weight:600;'>Portal PCM • Visualizador Executivo</div>", unsafe_allow_html=True)
+    
