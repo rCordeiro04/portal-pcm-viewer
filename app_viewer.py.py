@@ -661,13 +661,19 @@ with st.sidebar:
     arquivo_zip = st.file_uploader("Suba o arquivo .zip gerado no Portal Master", type="zip", label_visibility="collapsed")
     
     if arquivo_zip is not None:
-        os.makedirs(PASTA_BD, exist_ok=True)
+        # Cria uma "etiqueta" para o código reconhecer se já descompactou este ficheiro hoje
+        id_arquivo = arquivo_zip.name + str(arquivo_zip.size)
         
-        with zipfile.ZipFile(arquivo_zip, "r") as zip_ref:
-            zip_ref.extractall(PASTA_BD)
-        
-        st.success("✅ Base de dados carregada com sucesso!")
-        st.cache_data.clear()
-        st.rerun()
-        
-    st.markdown("<br><div style='text-align:center; font-size:0.7rem; color:#475569; font-weight:600;'>Portal PCM • Visualizador Executivo</div>", unsafe_allow_html=True)
+        if st.session_state.get("ultimo_zip") != id_arquivo:
+            os.makedirs(PASTA_BD, exist_ok=True)
+            
+            with zipfile.ZipFile(arquivo_zip, "r") as zip_ref:
+                zip_ref.extractall(PASTA_BD)
+            
+            st.session_state["ultimo_zip"] = id_arquivo
+            st.cache_data.clear()
+            st.rerun() # Agora ele reinicia só 1 vez, vê a etiqueta e para o ciclo!
+        else:
+            st.success("✅ Base de dados atualizada e pronta!")
+            
+    st.markdown("<br><div style='text-align:center; font-size:0.7rem; color:#475569; font-weight:600;'>Portal PCM • Visualizador Executivo</div>", unsafe_allow_html=True).7rem; color:#475569; font-weight:600;'>Portal PCM • Visualizador Executivo</div>", unsafe_allow_html=True)
