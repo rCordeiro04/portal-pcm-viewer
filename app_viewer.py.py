@@ -661,7 +661,7 @@ with st.sidebar:
     arquivo_zip = st.file_uploader("Suba o arquivo .zip gerado no Portal Master", type="zip", label_visibility="collapsed")
     
     if arquivo_zip is not None:
-        # Cria uma "etiqueta" para o código reconhecer se já descompactou este ficheiro hoje
+        # Cria uma "etiqueta" para o código reconhecer se já descompactou este ficheiro
         id_arquivo = arquivo_zip.name + str(arquivo_zip.size)
         
         if st.session_state.get("ultimo_zip") != id_arquivo:
@@ -672,8 +672,12 @@ with st.sidebar:
             
             st.session_state["ultimo_zip"] = id_arquivo
             st.cache_data.clear()
-            st.rerun() # Agora ele reinicia só 1 vez, vê a etiqueta e para o ciclo!
+            st.rerun() 
         else:
             st.success("✅ Base de dados atualizada e pronta!")
-            st.markdown("<br><div style='text-align:center; font-size:0.7rem; color:#475569; font-weight:600;'>Portal PCM • Visualizador Executivo</div>", unsafe_allow_html=True)
-    
+            # Novo botão de segurança para forçar a leitura dos ficheiros e contornar a cache
+            if st.button("🔄 Forçar Atualização dos Gráficos", use_container_width=True):
+                st.cache_data.clear()
+                st.rerun()
+            
+    st.markdown("<br><div style='text-align:center; font-size:0.7rem; color:#475569; font-weight:600;'>Portal PCM • Visualizador Executivo</div>", unsafe_allow_html=True)
